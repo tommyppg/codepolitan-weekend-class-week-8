@@ -42,6 +42,32 @@
 					<label>Author Artikel</label>
 					<input type="text" class="form-control" name="author_artikel" placeholder="Author Artikel" value="<?php echo $artikel_data['author_artikel']; ?>" required>
 				</div>
+				<?php
+					$result = mysqli_query($mysqli, "select * from kategori");
+				?>
+				<div class="form-group">
+					<label>Kategori</label>
+					<select name="id_kategori" class="form-control">
+						<option>-- Pilih Kategori --</option>
+						<?php
+							while($kategori_data = mysqli_fetch_array($result)){
+
+								//untuk kondisi menyamakan nilai id kategori
+								if($artikel_data['id_kategori'] == $kategori_data['id_kategori']){
+									$selected = 'selected';
+								}else{
+									$selected = '';
+								}
+
+								?>
+								<option <?php echo $selected; ?> value="<?php echo $kategori_data['id_kategori']?>">
+									<?php echo $kategori_data['nama_kategori']; ?>
+								</option>
+								<?php
+							}
+						?>
+					</select>
+				</div>
 				
 				<input type="hidden" name="id_artikel" value="<?php echo $artikel_data['id_artikel']?>">
 				<input type="submit" class="btn btn-primary" name="submit" value="Simpan">

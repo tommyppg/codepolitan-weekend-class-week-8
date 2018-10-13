@@ -31,6 +31,24 @@
 					<label>Author Artikel</label>
 					<input type="text" class="form-control" name="author_artikel" placeholder="Author Artikel" required>
 				</div>
+				<?php
+					$result = mysqli_query($mysqli, "select * from kategori");
+				?>
+				<div class="form-group">
+					<label>Kategori</label>
+					<select name="id_kategori" class="form-control">
+						<option>-- Pilih Kategori --</option>
+						<?php
+							while($kategori_data = mysqli_fetch_array($result)){
+								?>
+								<option value="<?php echo $kategori_data['id_kategori']?>">
+									<?php echo $kategori_data['nama_kategori']; ?>
+								</option>
+								<?php
+							}
+						?>
+					</select>
+				</div>
 				
 				<input type="submit" class="btn btn-primary" name="submit" value="Simpan">
 				<a href="index.php" class="btn btn-default">Batal</a>

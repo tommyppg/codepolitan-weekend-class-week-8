@@ -25,8 +25,34 @@
 			<div class="row">
 				<div class="col-md-9 blog-main">
 					<?php
-						$result = mysqli_query($mysqli, "select * from artikel order by tanggal_artikel desc");
+						//cek apakah ada proses menekan tombol search atau tidak
+						if(isset($_GET['submit'])){
+							$search_keyword = $_GET['search_keyword'];
+						}else{
+							$search_keyword = "";
+						}
+
+						$result = mysqli_query($mysqli, "select * from artikel join kategori on artikel.id_kategori = kategori.id_kategori where judul_artikel like '%$search_keyword%' order by tanggal_artikel desc");
 					?>
+
+					<form action="index.php" method="GET">
+
+						<div class="row">
+							<div class="col-md-8">
+								<div class="form-group">
+									<input type="text" class="form-control" name="search_keyword" placeholder="Search..." value="<?php echo $search_keyword; ?>">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<input type="submit" class="btn btn-primary btn-block" name="submit" value="Search">
+							</div>
+							<div class="col-md-2">
+								<a href="index.php" class="btn btn-default btn-block">Reset</a>
+							</div>
+						</div>
+
+					</form>
+					
 
 					<?php
 						//fungsi cek jumlah baris dari hasil query
@@ -38,6 +64,8 @@
 								<div class="blog-post">
 									<h2 class="blog-post-title"><?php echo $artikel_data['judul_artikel']; ?></h2>
 									<p class="blog-post-meta"><?= $artikel_data['tanggal_artikel'] ?> by <a href="#"><?= $artikel_data['author_artikel'] ?></a></p>
+
+									<span class="label label-success"><?php echo $artikel_data['nama_kategori']; ?></span>
 
 									<p>
 										<?= $artikel_data['isi_artikel'] ?>
